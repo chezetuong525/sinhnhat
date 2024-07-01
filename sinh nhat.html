@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Sinh nhậc cụa eiu Mei che de</title>
+<style>
+body {
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 100;
+  background: url('file:///D:/anhcapdoi.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+}
+
+h1 {
+  color: #396;
+  font-weight: 100;
+  font-size: 40px;
+  margin: 40px 0px 20px;
+}
+
+#clockdiv {
+  font-family: sans-serif;
+  color: #fff;
+  display: inline-block;
+  font-weight: 100;
+  text-align: center;
+  font-size: 30px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#clockdiv > div {
+  padding: 10px;
+  border-radius: 3px;
+  background: rgba(0, 191, 150, 0.8);
+  display: inline-block;
+}
+
+#clockdiv div > span {
+  padding: 15px;
+  border-radius: 3px;
+  background: rgba(0, 129, 106, 0.8);
+  display: inline-block;
+}
+
+.smalltext {
+  padding-top: 5px;
+  font-size: 16px;
+}
+
+#fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  display: none;
+}
+
+#message {
+  display: none;
+  font-size: 40px;
+  color: #fff;
+  margin-top: 20px;
+}
+
+#question {
+  display: none;
+  font-size: 30px;
+  color: #fff;
+  margin-top: 20px;
+}
+
+#question button {
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#question button#yes {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#question button#no {
+  background-color: #f44336;
+  color: white;
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+    transform: translateX(0);
+  }
+  100% {
+    top: 110%;
+    transform: translateX(100px);
+  }
+}
+
+.heart {
+  position: fixed;
+  top: -10%;
+  width: 50px;
+  height: 50px;
+  background: url('file:///D:/bcdd2dcca2ae00f059bf.jpg') no-repeat center center;
+  background-size: cover;
+  animation: fall linear infinite;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fireworks-js/2.1.4/fireworks.min.js"></script>
+</head>
+<body>
+<h1>Ngày đặc bịt cụa eiu Mei che de</h1>
+<div id="clockdiv">
+  <div>
+    <span class="days"></span>
+    <div class="smalltext">Ngày</div>
+  </div>
+  <div>
+    <span class="hours"></span>
+    <div class="smalltext">Giờ</div>
+  </div>
+  <div>
+    <span class="minutes"></span>
+    <div class="smalltext">Phút</div>
+  </div>
+  <div>
+    <span class="seconds"></span>
+    <div class="smalltext">Giây</div>
+  </div>
+</div>
+
+<div id="fireworks"></div>
+<div id="message">
+  Chúc mừng sinh nhật tình yêu của anh!<br>
+  Anh rất vui khi có em trong cuộc đời của anh. Cảm ơn em vì tất cả những điều tuyệt vời em đã làm cho anh. Có thể ngày này mang lại cho em rất nhiều niềm vui và hạnh phúc bởi vì em xứng đáng với tất cả điều này! Chúc mừng sinh nhật tình yêu của anh!
+</div>
+
+<div id="question">
+  Em có yêu anh không?<br>
+  <button id="yes">Có</button>
+  <button id="no">Không</button>
+</div>
+
+<script>
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var daysSpan = clock.querySelector('.days');
+  var hoursSpan = clock.querySelector('.hours');
+  var minutesSpan = clock.querySelector('.minutes');
+  var secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+      document.getElementById('fireworks').style.display = 'block';
+      document.getElementById('message').style.display = 'block';
+      document.getElementById('question').style.display = 'block';
+
+      var container = document.getElementById('fireworks');
+      var fireworks = new Fireworks(container, {
+        speed: 2,
+        acceleration: 1.05,
+        friction: 0.95,
+        gravity: 1.5,
+        particles: 100,
+        trace: 3,
+        explosion: 5,
+        boundaries: {
+          top: 50,
+          bottom: container.clientHeight,
+          left: 50,
+          right: container.clientWidth
+        },
+        sound: {
+          enable: true,
+          list: ['explosion0.mp3', 'explosion1.mp3', 'explosion2.mp3'],
+          min: 4,
+          max: 8
+        }
+      });
+
+      // Bắt đầu bắn pháo hoa mãi mãi
+      setInterval(() => fireworks.fire(), 500);
+    }
+  }
+
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
+
+function createHearts() {
+  const heart = document.createElement('div');
+  heart.className = 'heart';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+  document.body.appendChild(heart);
+
+  setTimeout(() => {
+    heart.remove();
+  }, 5000);
+}
+
+// Tạo trái tim mãi mãi
+setInterval(createHearts, 300);
+
+var deadline = new Date(Date.parse('2024-07-08T00:00:00'));
+initializeClock('clockdiv', deadline);
+
+document.getElementById('no').addEventListener('click', function() {
+  this.style.fontSize = '10px';
+  this.style.opacity = '0.5';
+  document.getElementById('yes').style.fontSize = '30px';
+  document.getElementById('yes').style.opacity = '1';
+});
+</script>
+</body>
+</html>
